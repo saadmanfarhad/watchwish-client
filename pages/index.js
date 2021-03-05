@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { Layout } from "../components/layout.tsx";
 
 export default function Home() {
   return (
@@ -7,7 +8,9 @@ export default function Home() {
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1 className="text-indigo-500 text-center text-2xl">Next.js is Cool!</h1>
+      <Layout>
+        <h1 className="mt-4 text-indigo-500 text-center text-2xl">Next.js is Cool!</h1>
+      </Layout>
     </div>
   );
 }
