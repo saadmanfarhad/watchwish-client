@@ -1,4 +1,4 @@
-export const SearchBar = () => {
+export const SearchBar = ({ onChange }) => {
   return (
     <div class="p-2">
       <div class="h-10 dark:bg-white bg-gray-700 flex items-center rounded-full shadow-xl">
@@ -7,6 +7,9 @@ export const SearchBar = () => {
           id="search"
           type="text"
           placeholder="Search"
+          onChange={(e) => {
+            onChange(e.target.value);
+          }}
         />
         {/*<div class="p-4">
           <button class="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-400 focus:outline-none w-8 h-8  md:w-9 md:h-9 flex items-center justify-center">
