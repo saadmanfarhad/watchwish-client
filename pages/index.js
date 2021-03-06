@@ -6,13 +6,7 @@ import { Card } from "../components/card.tsx";
 import useFetchData from "../hooks/useFetchData";
 
 const Home = (props) => {
-  const [
-    state,
-    setUrl,
-  ] = useFetchData(
-    "",
-    { hits: [] }
-  );
+  const [state, setUrl] = useFetchData("", { hits: [] });
   console.log(state.data);
 
   const search = (query) => {
@@ -29,9 +23,11 @@ const Home = (props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
           <div className="mt-6 w-3/4 md:w-2/5">
             <SearchBar onChange={search} />
+          </div>
+          <div className="mt-2 w-full">
             {state.isLoading ? (
               <div className="space-y-6">
                 <CardSkeleton />
@@ -40,9 +36,7 @@ const Home = (props) => {
               </div>
             ) : (
               state.data.results?.length &&
-              state.data.results.map((res, idx) => (
-                <Card data={res} />
-              ))
+              state.data.results.map((res, idx) => <Card data={res} />)
             )}
             <CardSkeleton />
           </div>
