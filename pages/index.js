@@ -10,8 +10,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className="dark:bg-gray-700 bg-gray:100 flex items-center justify-center">
-          <div className="mt-6 w-1/2">
+        <div className="flex items-center justify-center">
+          <div className="mt-6 w-3/4 md:w-2/5">
             <SearchBar />
           </div>
         </div>
