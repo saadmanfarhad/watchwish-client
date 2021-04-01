@@ -4,40 +4,75 @@ import { Layout } from "../components/layout.tsx";
 import { SearchBar } from "../components/searchbar.tsx";
 import { CardSkeleton } from "../components/skeleton.tsx";
 import { Card } from "../components/card.tsx";
-import useSWR from "swr";
+import { useSWRInfinite } from "swr";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const Home = (props) => {
-  const [url, setUrl] = useState("");
-  const { data, error } = useSWR(url, fetcher);
+  const [query, setQuery] = useState("");
+  const [loadMore, setLoadMore] = useState(false);
+  const { data, error, size, setSize } = useSWRInfinite(
+    (index) =>
+      `https://api.themoviedb.org/3/search/movie?api_key=4f17f3213e737992b22b4f7ebc04fc85&language=en-US&query=${query}&page=${
+        index + 1
+      }&include_adult=false`,
+    fetcher
+  );
 
   const search = (query) => {
     if (query.length) {
-      const url = `https://api.themoviedb.org/3/search/movie?api_key=4f17f3213e737992b22b4f7ebc04fc85&language=en-US&query=${query}&page=1&include_adult=false`;
-      setUrl(url);
+      setQuery(query);
     }
   };
 
   const process = () => {
     if (error) {
-      <h1>Error!</h1>
+      <h1>Error!</h1>;
     }
 
     if (!data) {
+      console.log(data);
       return (
-      url.length &&  <div className="space-y-6">
-          <CardSkeleton />
-          <CardSkeleton />
-          <CardSkeleton />
-        </div>
+        query.length && (
+          <div className="space-y-6">
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+          </div>
+        )
       );
     }
 
-    if (data) {
-      console.log("data", data);
-      const items = data.results.filter((movies) => movies.overview.length);
-      return items.length && items.map((info, idx) => <Card data={info} />);
+    let results = null;
+    if (data && !data[0].errors?.length) {
+      let page = 0;
+      let totalPages = 0;
+      console.log(data);
+      results = [];
+      for (var pageData of data) {
+        const items = pageData.results
+          ? pageData.results.filter((movies) => movies.overview.length)
+          : [];
+        results = [...results, ...items];
+        page = pageData.page;
+        totalPages = pageData.total_pages;
+      }
+
+      return (
+        <div className="flex flex-col items-center justify-center">
+          {results?.length && results.map((info, idx) => <Card data={info} />)}
+          {page < totalPages ? (
+            <button
+              onClick={() => {
+                setSize(size + 1);
+              }}
+              className="mr-5 bg-blue-700 text-white border border-blue-700 font-bold py-2 px-6 rounded-lg"
+            >
+              Load More
+            </button>
+          ) : undefined}
+        </div>
+      );
     }
   };
 
@@ -52,9 +87,7 @@ const Home = (props) => {
           <div className="mt-6 w-3/4 md:w-2/5">
             <SearchBar onChange={search} />
           </div>
-          <div className="mt-2 w-full">
-            {process()}
-          </div>
+          <div className="mt-2 w-full">{process()}</div>
         </div>
       </Layout>
     </>

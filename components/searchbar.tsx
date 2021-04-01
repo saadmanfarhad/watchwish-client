@@ -1,9 +1,9 @@
 export const SearchBar = ({ onChange }) => {
   return (
-    <div class="p-2">
-      <div class="h-10 dark:bg-white bg-gray-700 flex items-center rounded-full shadow-xl">
+    <div className="p-2">
+      <div className="h-10 dark:bg-white bg-gray-700 flex items-center rounded-full shadow-xl">
         <input
-          class="h-10 dark:bg-white bg-gray-700 rounded-full w-full py-4 px-6 text-gray-100 dark:text-gray-800 leading-tight focus:outline-none"
+          className="h-10 dark:bg-white bg-gray-700 rounded-full w-full py-4 px-6 text-gray-100 dark:text-gray-800 leading-tight focus:outline-none"
           id="search"
           type="text"
           placeholder="Search"
@@ -11,8 +11,8 @@ export const SearchBar = ({ onChange }) => {
             onChange(e.target.value);
           }}
         />
-        {/*<div class="p-4">
-          <button class="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-400 focus:outline-none w-8 h-8  md:w-9 md:h-9 flex items-center justify-center">
+        {/*<div className="p-4">
+          <button className="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-400 focus:outline-none w-8 h-8  md:w-9 md:h-9 flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
