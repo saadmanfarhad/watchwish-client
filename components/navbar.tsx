@@ -7,7 +7,7 @@ export const Navbar = () => {
   useEffect(() => setMounted(true), []);
 
   return (
-    <nav className="bg-white dark:bg-gray-800 h-16">
+    <nav className="bg-white dark:bg-gray-900 h-16">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">

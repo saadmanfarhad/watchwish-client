@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const Card = ({ data }) => (
   <section className="m-2 font-sans leading-normal flex items-center justify-center">
     {/*<!-- card container -->*/}
@@ -13,9 +15,11 @@ export const Card = ({ data }) => (
       ></div>
 
       <div className="px-6 py-4 w-full">
-        <h2 className="md:text-4xl mb-2 font-black dark:text-gray-700 text-white">
-          {data.original_title}
-        </h2>
+        <Link href={`/${data.id}?media=${data.media}`}>
+          <h2 className="md:text-4xl mb-2 font-black dark:text-gray-700 text-white cursor-pointer">
+            {data.media === "movie" ? data.title : data.name}
+          </h2>
+        </Link>
         <p className="md:text-lg mb-4 dark:text-gray-500 text-sm">
           {data.overview.length > 400
             ? `${data.overview.slice(0, 400)}...`

@@ -9,11 +9,12 @@ import { useSWRInfinite } from "swr";
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const Home = (props) => {
+  const [tab, setTab] = useState("tv");
   const [query, setQuery] = useState("");
   const [loadMore, setLoadMore] = useState(false);
   const { data, error, size, setSize } = useSWRInfinite(
     (index) =>
-      `https://api.themoviedb.org/3/search/movie?api_key=4f17f3213e737992b22b4f7ebc04fc85&language=en-US&query=${query}&page=${
+      `https://api.themoviedb.org/3/${tab}/popular?api_key=4f17f3213e737992b22b4f7ebc04fc85&language=en-US&page=${
         index + 1
       }&include_adult=false`,
     fetcher
@@ -60,7 +61,7 @@ const Home = (props) => {
 
       return (
         <div className="flex flex-col items-center justify-center">
-          {results?.length && results.map((info, idx) => <Card data={info} />)}
+          {results?.length && results.map((info, idx) => <Card key={info.id} data={{...info, media: tab}} />)}
           {page < totalPages ? (
             <button
               onClick={() => {
@@ -84,8 +85,22 @@ const Home = (props) => {
       </Head>
       <Layout>
         <div className="flex flex-col items-center justify-center">
-          <div className="mt-6 w-3/4 md:w-2/5">
-            <SearchBar onChange={search} />
+          <div className="mt-6 w-3/4">
+            {/*<SearchBar onChange={search} />*/}
+            <div className="bg-white dark:bg-gray-800">
+              <nav className="flex  mt-2">
+                <button
+                  onClick={() => setTab("movie")}
+                  className={`w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none ${tab === "movie" ? "text-blue-500 border-b-2 font-medium border-blue-500" : ""}`}>
+                  Movies
+                </button>
+                <button
+                  onClick={() => setTab("tv")}
+                  className={`w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none ${tab === "tv" ? "text-blue-500 border-b-2 font-medium border-blue-500" : ""}`}>
+                  TV Shows
+                </button>
+              </nav>
+            </div>
           </div>
           <div className="mt-2 w-full">{process()}</div>
         </div>
