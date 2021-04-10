@@ -9,7 +9,7 @@ import { useSWRInfinite } from "swr";
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const Home = (props) => {
-  const [tab, setTab] = useState("tv");
+  const [tab, setTab] = useState("movie");
   const [query, setQuery] = useState("");
   const [loadMore, setLoadMore] = useState(false);
   const { data, error, size, setSize } = useSWRInfinite(

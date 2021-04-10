@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { useTheme } from "next-themes";
 
 export const Navbar = () => {
@@ -12,16 +13,20 @@ export const Navbar = () => {
         <div className="relative flex items-center justify-between h-16">
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0 flex items-center">
-              <img
-                className="block lg:hidden h-12 w-16"
-                src="/logo-mobile.png"
-                alt="Workflow"
-              />
-              <img
-                className="hidden lg:block h-14 w-32"
-                src="/logo.png"
-                alt="Workflow"
-              />
+              <Link href={`/`}>
+                <img
+                  className="block cursor-pointer lg:hidden h-12 w-16"
+                  src="/logo-mobile.png"
+                  alt="Workflow"
+                />
+              </Link>
+              <Link href={`/`}>
+                <img
+                  className="hidden cursor-pointer lg:block h-14 w-32"
+                  src="/logo.png"
+                  alt="Workflow"
+                />
+              </Link>
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
