@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/client";
@@ -12,7 +13,6 @@ export default function Login() {
 
   useEffect(() => {
     if (router.query.error) {
-      console.log(router.query);
       setLoginError(router.query.error);
       setEmail(router.query.email);
     }
@@ -35,7 +35,7 @@ export default function Login() {
         <form className="mt-6">
           <div className="my-5 text-sm">
             <label htmlFor="email" className="block text-black">
-              Username
+              Username/Email
             </label>
             <input
               className="rounded-sm px-4 py-3 mt-3 focus:outline-none bg-gray-100 w-full"
@@ -68,8 +68,6 @@ export default function Login() {
 
           <button
             className="block text-center text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black w-full"
-            // type="submit"
-            // disabled={isLoginStarted}
             onClick={(e) => {
               e.preventDefault();
               handleLogin(e);
@@ -98,13 +96,21 @@ export default function Login() {
 
         <div className="grid md:grid-cols-2 gap-2 mt-7">
           <div>
-            <button className="text-center w-full text-white bg-blue-900 p-3 duration-300 rounded-sm hover:bg-blue-700">
+            <button className="text-center w-full text-white bg-blue-700 p-3 duration-300 rounded-sm hover:bg-blue-900">
               Facebook
             </button>
           </div>
           <div>
-            <button className="text-center w-full text-white bg-blue-400 p-3 duration-300 rounded-sm hover:bg-blue-500">
-              Twitter
+            <button
+              className="text-center w-full text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700"
+              onClick={(e) => {
+                e.preventDefault();
+                signIn("google", {
+                  callbackUrl: `${window.location.origin}/`
+                });
+              }}
+            >
+              Google
             </button>
           </div>
         </div>
@@ -112,10 +118,11 @@ export default function Login() {
         <p className="mt-12 text-xs text-center font-light text-gray-400">
           {" "}
           Don't have an account?{" "}
-          <a href="../auth/register.html" className="text-black font-medium">
-            {" "}
-            Create One{" "}
-          </a>{" "}
+          <Link href={"/register"}>
+            <a href="#" className="text-black font-medium">
+              Create One
+            </a>
+          </Link>
         </p>
       </div>
     </div>

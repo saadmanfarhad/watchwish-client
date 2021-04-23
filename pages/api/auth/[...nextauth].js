@@ -7,7 +7,6 @@ const providers = [
     name: "Credentials",
     authorize: async (credentials) => {
       try {
-        console.log("In here");
         const user = await axios.post(
           `http://localhost:8000/api/login`,
           {
@@ -23,8 +22,6 @@ const providers = [
         );
 
         if (user.data.accessToken) {
-          console.log(user.data);
-          // return { status: "success", data: user.data.user };
           return user.data;
         }
       } catch (e) {
@@ -34,14 +31,54 @@ const providers = [
       }
     },
   }),
+  Providers.Google({
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  }),
 ];
 
 const callbacks = {
+  async signIn(user, account, metadata) {
+    if (account.provider === "google") {
+      const googleUser = {
+        email: metadata.email,
+        first_name: metadata.given_name,
+        last_name: metadata.family_name,
+        avatar: metadata.picture,
+        accessToken: account.id_token,
+        provider: account.provider,
+      };
+
+      const accessToken = await axios.post(
+        `http://localhost:8000/api/login/social`,
+        googleUser,
+        {
+          headers: {
+            accept: "*/*",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (accessToken.data.status) {
+        user.accessToken = accessToken.data.accessToken;
+        return true;
+      }
+      return false;
+    }
+
+    if (account.provider === "credentials") {
+      if (user) {
+        return true;
+      }
+
+      return false;
+    }
+  },
+
   async jwt(token, user) {
     if (user) {
-      console.log("user", user);
       token.accessToken = user.accessToken;
-      console.log("token", token);
     }
 
     return token;
@@ -49,8 +86,12 @@ const callbacks = {
 
   async session(session, token) {
     session.accessToken = token.accessToken;
-    console.log("session", session);
-    console.log("token", token);
+    const user = await axios.get(`http://localhost:8000/api/user`, {
+      headers: {
+        Authorization: `Token ${session.accessToken}`,
+      },
+    });
+    session.user = user.data;
     return session;
   },
 };
