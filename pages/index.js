@@ -5,8 +5,9 @@ import { SearchBar } from "../components/searchbar.tsx";
 import { CardSkeleton } from "../components/skeleton.tsx";
 import { Card } from "../components/card.tsx";
 import { useSWRInfinite } from "swr";
+import axios from "axios";
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 const Home = (props) => {
   const [tab, setTab] = useState("movie");
@@ -32,7 +33,6 @@ const Home = (props) => {
     }
 
     if (!data) {
-      console.log(data);
       return (
         query.length && (
           <div className="space-y-6">
@@ -88,15 +88,15 @@ const Home = (props) => {
           <div className="mt-6 w-3/4">
             {/*<SearchBar onChange={search} />*/}
             <div className="bg-white dark:bg-gray-800">
-              <nav className="flex  mt-2">
+              <nav className="flex">
                 <button
                   onClick={() => setTab("movie")}
-                  className={`w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none ${tab === "movie" ? "text-blue-500 border-b-2 font-medium border-blue-500" : ""}`}>
+                  className={`w-1/2 dark:text-gray-200 py-4 px-6 block dark:hover:text-blue-500 focus:outline-none ${tab === "movie" ? "text-blue-500 border-b-2 font-medium border-blue-500" : ""}`}>
                   Movies
                 </button>
                 <button
                   onClick={() => setTab("tv")}
-                  className={`w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none ${tab === "tv" ? "text-blue-500 border-b-2 font-medium border-blue-500" : ""}`}>
+                  className={`w-1/2 dark:text-gray-200 py-4 px-6 block dark:hover:text-blue-500 focus:outline-none ${tab === "tv" ? "text-blue-500 border-b-2 font-medium border-blue-500" : ""}`}>
                   TV Shows
                 </button>
               </nav>

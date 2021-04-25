@@ -85,7 +85,7 @@ const DetailsPage = ({ details }) => {
     <Layout>
       <div>
         <div class="lg:py-12 lg:flex lg:justify-center">
-          <div class="bg-white lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg lg:rounded-lg">
+          <div class="bg-white dark:bg-gray-800 lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg lg:rounded-lg">
             <div class="lg:w-3/5">
               <div
                 class="h-80 bg-cover lg:rounded-lg lg:h-screen"
@@ -93,7 +93,7 @@ const DetailsPage = ({ details }) => {
               ></div>
             </div>
             <div class="py-12 px-6 max-w-xl lg:max-w-5xl lg:w-2/5">
-              <h1 className="flex items-center justify-center text-3xl lg:text-4xl dark:text-gray-700 text-gray-700 text-center font-bold pt-8 lg:pt-0">
+              <h1 className="flex items-center justify-center text-3xl lg:text-4xl dark:text-gray-100 text-gray-700 text-center font-bold pt-8 lg:pt-0">
                 {details.media === "movie" ? data.title : data.name}
                 {details.watched === false ? (
                   <svg
@@ -129,10 +129,10 @@ const DetailsPage = ({ details }) => {
                 )}
               </h1>
               <div className="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
-              <p className="pt-4 text-base font-bold flex items-center justify-start">
+              <p className="pt-4 dark:text-gray-200 text-base font-bold flex items-center justify-start">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 fill-current text-green-700 pr-4"
+                  className="h-8 fill-current text-blue-700 pr-4"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -144,10 +144,10 @@ const DetailsPage = ({ details }) => {
                 </svg>
                 {getGenres(data.genres)}
               </p>
-              <p className="pt-4 text-base font-bold flex items-center justify-start">
+              <p className="pt-4 dark:text-gray-200 text-base font-bold flex items-center justify-start">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 fill-current text-green-700 pr-4"
+                  className="h-8 fill-current text-blue-700 pr-4"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -160,10 +160,10 @@ const DetailsPage = ({ details }) => {
                 {details.media === "movie" ? data.runtime : data.episode_run_time}{" "}
                 minutes
               </p>
-              <p className="pt-4 text-base font-bold flex items-center justify-start">
+              <p className="pt-4 dark:text-gray-200 text-base font-bold flex items-center justify-start">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 fill-current text-green-700 pr-4"
+                  className="h-8 fill-current text-blue-700 pr-4"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -175,10 +175,10 @@ const DetailsPage = ({ details }) => {
                 </svg>
                 {data.vote_average}
               </p>
-              <p className="pt-4 text-base font-bold flex items-center justify-start">
+              <p className="pt-4 dark:text-gray-200 text-base font-bold flex items-center justify-start">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 fill-current text-green-700 pr-4"
+                  className="h-8 fill-current text-blue-700 pr-4"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -186,12 +186,14 @@ const DetailsPage = ({ details }) => {
                 </svg>
                 {data.vote_count} votes
               </p>
-              <p className="mt-4 text-xl lg:text-xl dark:text-gray-500">
-                <span className="font-bold underline text-2xl lg:text-3xl">
+              <p className="mt-4 dark:text-gray-200 text-xl lg:text-xl dark:text-gray-500">
+                <span className="font-bold dark:text-gray-200 underline text-2xl lg:text-3xl">
                   Overview
                 </span>
                 <br />
-                {data.overview}
+                <p className="dark:text-gray-200 mt-2">
+                  {data.overview}
+                </p>
               </p>
               {details.userId ? (
                 <div className="flex">
@@ -202,7 +204,7 @@ const DetailsPage = ({ details }) => {
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="w-6 h-6 mr-2"
+                        className="w-6 h-6 mr-2 text-blue-700"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -231,7 +233,7 @@ const DetailsPage = ({ details }) => {
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="w-6 h-6 mr-2"
+                        className="w-6 h-6 mr-2 text-blue-700"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
