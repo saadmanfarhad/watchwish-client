@@ -87,7 +87,7 @@ const Home = (props) => {
         <div className="flex flex-col items-center justify-center">
           <div className="mt-6 w-3/4">
             {/*<SearchBar onChange={search} />*/}
-            <div className="bg-white dark:bg-gray-800">
+            <div className="bg-gray-300 dark:bg-gray-800">
               <nav className="flex">
                 <button
                   onClick={() => setTab("movie")}

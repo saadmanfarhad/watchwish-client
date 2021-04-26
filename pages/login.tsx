@@ -31,7 +31,7 @@ export default function Login() {
 
   return (
     <Layout header={false}>
-      <div className="bg-white dark:bg-gray-800 lg:w-4/12 md:6/12 w-10/12 m-auto mt-10 shadow-md h-full">
+      <div className="bg-gray-300 dark:bg-gray-800 lg:w-4/12 md:6/12 w-10/12 m-auto mt-10 shadow-md h-full">
         <div className="py-8 px-8 rounded-xl">
           <h1 className="dark:text-gray-200 font-medium text-2xl mt-3 text-center">Login</h1>
           <form className="mt-6">
@@ -69,7 +69,7 @@ export default function Login() {
             </div>
 
             <button
-              className="block text-center text-white dark:text-gray-200 bg-gray-900 p-3 duration-300 rounded-sm hover:bg-black w-full"
+              className="block text-center text-white dark:text-gray-800 bg-gray-800 dark:bg-gray-300 p-3 duration-300 rounded-sm hover:bg-black dark:hover:bg-black dark:hover:text-gray-200 w-full"
               onClick={(e) => {
                 e.preventDefault();
                 handleLogin(e);

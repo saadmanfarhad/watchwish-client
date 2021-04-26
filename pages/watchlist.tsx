@@ -25,10 +25,10 @@ export default function Watchlist({ session, watchlist }) {
   const { data, error, size, setSize } = useSWRInfinite(
     (index) =>
       tab === "notWatched"
-        ? `http://:8000/api/watchlist/${session?.user.id}?page=${
+        ? `http://localhost:8000/api/watchlist/${session?.user.id}?page=${
             index + 1
           }`
-        : `http://:8000/api/watchedlist/${session?.user.id}?page=${
+        : `http://localhost:8000/api/watchedlist/${session?.user.id}?page=${
             index + 1
           }`,
     (url) => fetcher(url, session.accessToken),
@@ -37,6 +37,7 @@ export default function Watchlist({ session, watchlist }) {
 
   const getResults = async () => {
     const resultArray = [];
+    console.log(data);
     for (const page of data) {
       if (page.results.length) {
         for (let i = 0; i < page.results.length; i++) {
@@ -56,9 +57,11 @@ export default function Watchlist({ session, watchlist }) {
 
   useEffect(() => {
     if (data.length) {
+      console.log('Called');
+
       getResults();
     }
-  }, [data]);
+  }, [tab]);
 
   if (!session)
     return (
@@ -71,7 +74,7 @@ export default function Watchlist({ session, watchlist }) {
     <Layout>
       <div className="flex flex-col items-center justify-center">
         <div className="mt-6 w-3/4">
-          <div className="bg-white dark:bg-gray-800">
+          <div className="bg-gray-300 dark:bg-gray-800">
             <nav className="flex  mt-2">
               <button
                 onClick={() => setTab("notWatched")}
@@ -114,7 +117,7 @@ export default function Watchlist({ session, watchlist }) {
                   onClick={() => {
                     setSize(size + 1);
                   }}
-                  className="mr-5 bg-blue-700 text-white border border-blue-700 font-bold py-2 px-6 rounded-lg"
+                  className="mr-5 mb-4 bg-blue-700 text-white border border-blue-700 font-bold py-2 px-6 rounded-lg"
                 >
                   Load More
                 </button>
@@ -132,7 +135,7 @@ export async function getServerSideProps(ctx) {
   let watchlist = [];
   if (session) {
     const toWatchList = await fetcher(
-      `http://:8000/api/watchlist/${session.user.id}?page=1`,
+      `http://localhost:8000/api/watchedlist/${session.user.id}?page=1`,
       session.accessToken
     );
 

@@ -15,7 +15,7 @@ export const Navbar = () => {
   useEffect(() => setMounted(true), []);
 
   return (
-    <nav className="bg-gray-800">
+    <nav className="bg-gray-300 dark:bg-gray-800">
       <div className="max-w-8xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -101,7 +101,7 @@ export const Navbar = () => {
                 <Link href={"/search"}>
                   <a
                     href="#"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    className="text-gray-700 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                     aria-current="page"
                   >
                     Search
@@ -111,7 +111,7 @@ export const Navbar = () => {
                 {session && <Link href={"/watchlist"}>
                   <a
                     href="#"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    className="text-gray-700 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Watchlist
                   </a>
@@ -121,7 +121,7 @@ export const Navbar = () => {
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <button
-              className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+              className="bg-gray-800 dark:bg-gray-300 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             >
               {mounted && (
@@ -129,7 +129,7 @@ export const Navbar = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
-                  className="h-4 w-4 text-white"
+                  className="h-4 w-4 text-white dark:text-black"
                 >
                   {theme === "dark" ? (
                     <path
@@ -165,7 +165,7 @@ export const Navbar = () => {
                 {!session && <Link href="/login">
                   <a
                     href="#"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    className="text-gray-700 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                     aria-current="page"
                     >
                     Login
@@ -185,7 +185,7 @@ export const Navbar = () => {
           -->*/}
               {showUserMenu ? (
                 <div
-                  className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none"
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="user-menu-button"
@@ -194,7 +194,7 @@ export const Navbar = () => {
                   {/*<!-- Active: "bg-gray-100", Not Active: "" -->*/}
                   <a
                     href="#"
-                    className="block hover:bg-gray-200 px-4 py-2 text-sm text-gray-700"
+                    className="block hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 text-sm text-gray-700 dark:text-gray-300"
                     role="menuitem"
                     tabIndex="-1"
                     id="user-menu-item-0"
@@ -203,7 +203,7 @@ export const Navbar = () => {
                   </a>
                   <a
                     href="#"
-                    className="block hover:bg-gray-200 px-4 py-2 text-sm text-gray-700"
+                    className="block hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 text-sm text-gray-700 dark:text-gray-300"
                     role="menuitem"
                     tabIndex="-1"
                     id="user-menu-item-1"
@@ -212,7 +212,7 @@ export const Navbar = () => {
                   </a>
                   <a
                     href="#"
-                    className="block hover:bg-gray-200 px-4 py-2 text-sm text-gray-700"
+                    className="block hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 text-sm text-gray-700 dark:text-gray-300"
                     role="menuitem"
                     tabIndex="-1"
                     id="user-menu-item-2"
@@ -235,7 +235,7 @@ export const Navbar = () => {
             <Link href={"/search"}>
               <a
                 href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                className="text-gray-700 dark:text-gray-300 hover:bg-gray-400 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 aria-current="page"
               >
                 Search
@@ -245,9 +245,9 @@ export const Navbar = () => {
             {session && <Link href={"/watchlist"}>
               <a
                 href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                className="text-gray-700 dark:text-gray-300 hover:bg-gray-400 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
               >
-                Team
+                Watchlist
               </a>
             </Link>}
           </div>

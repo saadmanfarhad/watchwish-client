@@ -85,7 +85,7 @@ const DetailsPage = ({ details }) => {
     <Layout>
       <div>
         <div class="lg:py-12 lg:flex lg:justify-center">
-          <div class="bg-white dark:bg-gray-800 lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg lg:rounded-lg">
+          <div class="bg-gray-300 dark:bg-gray-800 lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg lg:rounded-lg">
             <div class="lg:w-3/5">
               <div
                 class="h-80 bg-cover lg:rounded-lg lg:h-screen"
@@ -199,7 +199,7 @@ const DetailsPage = ({ details }) => {
                 <div className="flex">
                   {details.watched === null ? (
                     <button
-                      className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center mt-6 mr-4"
+                      className="bg-gray-200 dark:bg-gray-300 hover:bg-gray-400 dark:hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center mt-6 mr-4"
                       onClick={() => addToWatchlist()}
                     >
                       <svg
@@ -222,7 +222,7 @@ const DetailsPage = ({ details }) => {
                   ) : undefined}
                   {details.watched === false || details.watched === null ? (
                     <button
-                      className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center mt-6"
+                      className="bg-gray-200 dark:bg-gray-300 hover:bg-gray-400 dark:hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center mt-6"
                       onClick={() => {
                         if (details.watched === false) {
                           updateWatchlist();
