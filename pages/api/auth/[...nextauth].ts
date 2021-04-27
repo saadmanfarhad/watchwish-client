@@ -35,6 +35,10 @@ const providers = [
     clientId: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   }),
+  Providers.Facebook({
+    clientId: process.env.FACEBOOK_CLIENT_ID,
+    clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+  }),
 ];
 
 const callbacks = {
@@ -45,13 +49,44 @@ const callbacks = {
         first_name: metadata.given_name,
         last_name: metadata.family_name,
         avatar: metadata.picture,
-        accessToken: account.id_token,
+        access_token: account.id_token,
         provider: account.provider,
       };
 
       const accessToken = await axios.post(
         `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/login/social`,
         googleUser,
+        {
+          headers: {
+            accept: "*/*",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (accessToken.data.status) {
+        user.accessToken = accessToken.data.accessToken;
+        return true;
+      }
+      return false;
+    }
+
+    if (account.provider === 'facebook') {
+      const fullName = user.name.split(" ");
+      const lastName = fullName[fullName.length - 1];
+      const firstName = fullName.slice(0, fullName.length).join(" ");
+      const facebookUser = {
+        email: user.email,
+        first_name: firstName,
+        last_name: lastName,
+        avatar: user.picture,
+        access_token: account.accessToken,
+        provider: account.provider,
+      };
+
+      const accessToken = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/login/social`,
+        facebookUser,
         {
           headers: {
             accept: "*/*",

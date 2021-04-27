@@ -98,7 +98,15 @@ export default function Login() {
 
           <div className="grid md:grid-cols-2 gap-2 mt-7">
             <div>
-              <button className="text-center w-full text-white bg-blue-700 p-3 duration-300 rounded-sm hover:bg-blue-900">
+              <button
+                className="text-center w-full text-white bg-blue-700 p-3 duration-300 rounded-sm hover:bg-blue-900"
+                onClick={(e) => {
+                  e.preventDefault();
+                  signIn("facebook", {
+                    callbackUrl: `${window.location.origin}/`
+                  });
+                }}
+              >
                 Facebook
               </button>
             </div>
