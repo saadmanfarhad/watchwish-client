@@ -10,8 +10,6 @@ export const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const [session, loading] = useSession();
 
-  console.log(session);
-
   useEffect(() => setMounted(true), []);
 
   return (

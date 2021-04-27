@@ -57,11 +57,9 @@ export default function Watchlist({ session, watchlist }) {
 
   useEffect(() => {
     if (data.length) {
-      console.log('Called');
-
       getResults();
     }
-  }, [tab]);
+  }, [data]);
 
   if (!session)
     return (
@@ -135,7 +133,7 @@ export async function getServerSideProps(ctx) {
   let watchlist = [];
   if (session) {
     const toWatchList = await fetcher(
-      `http://localhost:8000/api/watchedlist/${session.user.id}?page=1`,
+      `http://localhost:8000/api/watchlist/${session.user.id}?page=1`,
       session.accessToken
     );
 

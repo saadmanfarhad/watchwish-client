@@ -1,4 +1,4 @@
-export const SearchBar = ({ onChange }) => {
+export const SearchBar = ({ onChange, query }) => {
   return (
     <div className="p-2">
       <div className="h-10 dark:bg-white bg-gray-700 flex items-center rounded-full shadow-xl">
@@ -7,6 +7,7 @@ export const SearchBar = ({ onChange }) => {
           id="search"
           type="text"
           placeholder="Search"
+          value={query}
           onChange={(e) => {
             onChange(e.target.value);
           }}

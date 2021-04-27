@@ -1,7 +1,7 @@
 export const CardSkeleton = () => (
   <div className="m-2 flex items-center justify-center">
     {/*<!-- card -->*/}
-    <div className="max-w-5xl w-full shadow-lg rounded overflow-hidden m-4 sm:flex bg-white">
+    <div className="h-96 max-w-5xl w-full shadow-lg rounded overflow-hidden m-4 sm:flex bg-gray-300 dark:bg-gray-800">
       {/*<!-- image -->*/}
       <div
         className="animate-pulse bg-gray-200 dark:bg-gray-200 h-64 sm:h-auto sm:w-48 md:w-64 flex-none bg-cover bg-center rounded rounded-t sm:rounded sm:rounded-l text-center overflow-hidden"
