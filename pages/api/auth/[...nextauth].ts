@@ -8,7 +8,7 @@ const providers = [
     authorize: async (credentials) => {
       try {
         const user = await axios.post(
-          `http://localhost:8000/api/login`,
+          `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/login`,
           {
             password: credentials.password,
             email: credentials.email,
@@ -50,7 +50,7 @@ const callbacks = {
       };
 
       const accessToken = await axios.post(
-        `http://localhost:8000/api/login/social`,
+        `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/login/social`,
         googleUser,
         {
           headers: {
@@ -86,7 +86,7 @@ const callbacks = {
 
   async session(session, token) {
     session.accessToken = token.accessToken;
-    const user = await axios.get(`http://localhost:8000/api/user`, {
+    const user = await axios.get(`${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/user`, {
       headers: {
         Authorization: `Token ${session.accessToken}`,
       },

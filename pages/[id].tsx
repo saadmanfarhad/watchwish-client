@@ -31,7 +31,7 @@ const DetailsPage = ({ details }) => {
   const addToWatchlist = async (watched = false) => {
     try {
       const add = await axios.post(
-        `http://localhost:8000/api/watchlist`,
+        `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/watchlist`,
         {
           user: details.userId,
           media_id: details.id,
@@ -57,7 +57,7 @@ const DetailsPage = ({ details }) => {
   const updateWatchlist = async () => {
     try {
       const add = await axios.post(
-        `http://localhost:8000/api/watchlist/put`,
+        `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/watchlist/put`,
         {
           user: details.userId,
           media_id: details.id,
@@ -273,7 +273,7 @@ export async function getServerSideProps(ctx) {
 
   if (session) {
     const watched = await axios.get(
-      `http://localhost:8000/api/media/status/${session.user.id}/${id}`,
+      `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/media/status/${session.user.id}/${id}`,
       {
         headers: {
           Authorization: `Token ${session.accessToken}`,

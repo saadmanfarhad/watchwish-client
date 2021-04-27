@@ -25,10 +25,10 @@ export default function Watchlist({ session, watchlist }) {
   const { data, error, size, setSize } = useSWRInfinite(
     (index) =>
       tab === "notWatched"
-        ? `http://localhost:8000/api/watchlist/${session?.user.id}?page=${
+        ? `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/watchlist/${session?.user.id}?page=${
             index + 1
           }`
-        : `http://localhost:8000/api/watchedlist/${session?.user.id}?page=${
+        : `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/watchedlist/${session?.user.id}?page=${
             index + 1
           }`,
     (url) => fetcher(url, session.accessToken),
