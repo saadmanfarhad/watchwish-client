@@ -9,7 +9,7 @@ import axios from "axios";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
-const Home = (props) => {
+const Home = () => {
   const [tab, setTab] = useState("movie");
   const [query, setQuery] = useState("");
   const [loadMore, setLoadMore] = useState(false);
