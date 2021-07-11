@@ -9,9 +9,7 @@ const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 const DetailsPage = ({ details }) => {
   const router = useRouter();
-  const {
-    data,
-  } = useSWR(
+  const { data } = useSWR(
     `https://api.themoviedb.org/3/${details.media}/${details.id}?api_key=4f17f3213e737992b22b4f7ebc04fc85&language=en-US`,
     fetcher,
     { initialData: details }
@@ -88,7 +86,9 @@ const DetailsPage = ({ details }) => {
             <div className="lg:w-3/5">
               <div
                 className="h-80 bg-cover lg:rounded-lg lg:h-screen"
-                style={{backgroundImage:`url('https://image.tmdb.org/t/p/original/${details.poster_path}')`}}
+                style={{
+                  backgroundImage: `url('https://image.tmdb.org/t/p/original/${details.poster_path}')`,
+                }}
               ></div>
             </div>
             <div className="py-12 px-6 max-w-xl lg:max-w-5xl lg:w-2/5">
@@ -156,7 +156,9 @@ const DetailsPage = ({ details }) => {
                     clipRule="evenodd"
                   />
                 </svg>
-                {details.media === "movie" ? data.runtime : data.episode_run_time}{" "}
+                {details.media === "movie"
+                  ? data.runtime
+                  : data.episode_run_time}{" "}
                 minutes
               </p>
               <p className="pt-4 dark:text-gray-200 text-base font-bold flex items-center justify-start">
@@ -190,9 +192,7 @@ const DetailsPage = ({ details }) => {
                   Overview
                 </span>
                 <br />
-                <p className="dark:text-gray-200 mt-2">
-                  {data.overview}
-                </p>
+                <p className="dark:text-gray-200 mt-2">{data.overview}</p>
               </p>
               {details.userId ? (
                 <div className="flex">
@@ -272,6 +272,7 @@ export async function getServerSideProps(ctx) {
 
   if (session) {
     const watched = await axios.get(
+      // @ts-ignore
       `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/media/status/${session.user.id}/${id}`,
       {
         headers: {
@@ -283,6 +284,7 @@ export async function getServerSideProps(ctx) {
     modifiedDetails = {
       ...modifiedDetails,
       watched: watched.data.data.media_id ? watched.data.data.watched : null,
+      // @ts-ignore
       userId: session.user.id,
       accessToken: session.accessToken,
     };

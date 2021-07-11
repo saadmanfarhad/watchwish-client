@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import Head from "next/head";
-import { Layout } from "../components/layout.tsx";
-import { SearchBar } from "../components/searchbar.tsx";
-import { CardSkeleton } from "../components/skeleton.tsx";
-import { Card } from "../components/card.tsx";
+import { Layout } from "../components/layout";
+import { SearchBar } from "../components/searchbar";
+import { CardSkeleton } from "../components/skeleton";
+import { Card } from "../components/card";
 import { useSWRInfinite } from "swr";
 import axios from "axios";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
-const Search = (props) => {
+const Search = () => {
   const [tab, setTab] = useState("movie");
   const [query, setQuery] = useState("");
   const [loadMore, setLoadMore] = useState(false);
@@ -59,7 +59,10 @@ const Search = (props) => {
 
       return (
         <div className="flex flex-col items-center justify-center">
-          {results?.length && results.map((info, idx) => <Card key={info.id} data={{...info, media: tab}} />)}
+          {results?.length &&
+            results.map((info) => (
+              <Card key={info.id} data={{ ...info, media: tab }} />
+            ))}
           {page < totalPages ? (
             <button
               onClick={() => {
@@ -91,7 +94,12 @@ const Search = (props) => {
                     setQuery("");
                     setTab("movie");
                   }}
-                  className={`w-1/2 dark:text-gray-200 py-4 px-6 block dark:hover:text-blue-500 focus:outline-none ${tab === "movie" ? "text-blue-500 border-b-2 font-medium border-blue-500" : ""}`}>
+                  className={`w-1/2 dark:text-gray-200 py-4 px-6 block dark:hover:text-blue-500 focus:outline-none ${
+                    tab === "movie"
+                      ? "text-blue-500 border-b-2 font-medium border-blue-500"
+                      : ""
+                  }`}
+                >
                   Movies
                 </button>
                 <button
@@ -99,7 +107,12 @@ const Search = (props) => {
                     setQuery("");
                     setTab("tv");
                   }}
-                  className={`w-1/2 dark:text-gray-200 py-4 px-6 block dark:hover:text-blue-500 focus:outline-none ${tab === "tv" ? "text-blue-500 border-b-2 font-medium border-blue-500" : ""}`}>
+                  className={`w-1/2 dark:text-gray-200 py-4 px-6 block dark:hover:text-blue-500 focus:outline-none ${
+                    tab === "tv"
+                      ? "text-blue-500 border-b-2 font-medium border-blue-500"
+                      : ""
+                  }`}
+                >
                   TV Shows
                 </button>
               </nav>
@@ -108,9 +121,7 @@ const Search = (props) => {
           <div className="mt-4 w-3/4 md:w-1/2">
             <SearchBar query={query} onChange={search} />
           </div>
-          <div className="mt-2 w-full">
-            {process()}
-          </div>
+          <div className="mt-2 w-full">{process()}</div>
         </div>
       </Layout>
     </>

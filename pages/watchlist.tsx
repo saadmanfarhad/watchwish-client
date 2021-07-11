@@ -8,7 +8,7 @@ import { CardSkeleton } from "../components/skeleton";
 import useSWR, { useSWRInfinite } from "swr";
 import axios from "axios";
 
-const fetcher = (url: string, accessToken: string) =>
+const fetcher = (url: string, accessToken?: string) =>
   axios
     .get(url, {
       headers: {
@@ -137,8 +137,9 @@ export async function getServerSideProps(ctx) {
   let watchlist = [];
   if (session) {
     const toWatchList = await fetcher(
+      // @ts-ignore
       `http://localhost:8000/api/watchlist/${session.user.id}?page=1`,
-      session.accessToken
+      session.accessToken as string
     );
 
     watchlist.push(toWatchList);

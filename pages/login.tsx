@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import { Layout } from "../components/layout.tsx";
+import { Layout } from "../components/layout";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/client";
@@ -14,7 +14,9 @@ export default function Login() {
 
   useEffect(() => {
     if (router.query.error) {
+      // @ts-ignore
       setLoginError(router.query.error);
+      // @ts-ignore
       setEmail(router.query.email);
     }
   }, [router]);
@@ -33,10 +35,15 @@ export default function Login() {
     <Layout header={false}>
       <div className="bg-gray-300 dark:bg-gray-800 lg:w-4/12 md:6/12 w-10/12 m-auto mt-10 shadow-md h-full">
         <div className="py-8 px-8 rounded-xl">
-          <h1 className="dark:text-gray-200 font-medium text-2xl mt-3 text-center">Login</h1>
+          <h1 className="dark:text-gray-200 font-medium text-2xl mt-3 text-center">
+            Login
+          </h1>
           <form className="mt-6">
             <div className="my-5  text-sm">
-              <label htmlFor="email" className="block dark:text-gray-200 text-black">
+              <label
+                htmlFor="email"
+                className="block dark:text-gray-200 text-black"
+              >
                 Username/Email
               </label>
               <input
@@ -50,7 +57,10 @@ export default function Login() {
               />
             </div>
             <div className="my-5 text-sm">
-              <label htmlFor="password" className="block dark:text-gray-200 text-black">
+              <label
+                htmlFor="password"
+                className="block dark:text-gray-200 text-black"
+              >
                 Password
               </label>
               <input
@@ -78,7 +88,9 @@ export default function Login() {
               Login
             </button>
 
-            {loginError.length ? <p className="text-center text-red-600 mt-2">{loginError}</p> : undefined}
+            {loginError.length ? (
+              <p className="text-center text-red-600 mt-2">{loginError}</p>
+            ) : undefined}
           </form>
 
           <div className="flex md:justify-between justify-center items-center mt-10">
@@ -103,7 +115,7 @@ export default function Login() {
                 onClick={(e) => {
                   e.preventDefault();
                   signIn("facebook", {
-                    callbackUrl: `${window.location.origin}/`
+                    callbackUrl: `${window.location.origin}/`,
                   });
                 }}
               >
@@ -116,7 +128,7 @@ export default function Login() {
                 onClick={(e) => {
                   e.preventDefault();
                   signIn("google", {
-                    callbackUrl: `${window.location.origin}/`
+                    callbackUrl: `${window.location.origin}/`,
                   });
                 }}
               >

@@ -160,7 +160,11 @@ export const Navbar = () => {
                     <img
                       className="h-8 w-8 rounded-full"
                       src={
-                        session.user.avatar ? session.user.avatar : "/user.png"
+                        // @ts-ignore
+                        session.user.avatar!
+                          ? // @ts-ignore
+                            session.user.avatar!
+                          : "/user.png"
                       }
                       alt=""
                     />
@@ -195,15 +199,16 @@ export const Navbar = () => {
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="user-menu-button"
-                  tabIndex="-1"
                 >
                   {/*<!-- Active: "bg-gray-100", Not Active: "" -->*/}
+
+                  {/*
+                     // @ts-ignore */}
                   <Link href={`/user/${session?.user?.id!}`}>
                     <a
                       href="#"
                       className="block hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 text-sm text-gray-700 dark:text-gray-300"
                       role="menuitem"
-                      tabIndex="-1"
                       id="user-menu-item-0"
                     >
                       Your Profile
@@ -213,7 +218,6 @@ export const Navbar = () => {
                     href="#"
                     className="block hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 text-sm text-gray-700 dark:text-gray-300"
                     role="menuitem"
-                    tabIndex="-1"
                     id="user-menu-item-1"
                   >
                     Settings
@@ -222,7 +226,6 @@ export const Navbar = () => {
                     href="#"
                     className="block hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 text-sm text-gray-700 dark:text-gray-300"
                     role="menuitem"
-                    tabIndex="-1"
                     id="user-menu-item-2"
                     onClick={() => signOut()}
                   >

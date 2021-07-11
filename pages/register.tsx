@@ -1,10 +1,10 @@
 import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { Layout } from "../components/layout.tsx"
+import { Layout } from "../components/layout";
 import axios from "axios";
 
-export default function Login(props) {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -51,10 +51,15 @@ export default function Login(props) {
     <Layout header={false}>
       <div className="bg-gray-300 dark:bg-gray-800 lg:w-4/12 md:6/12 w-10/12 m-auto my-10 shadow-md">
         <div className="py-8 px-8 rounded-xl">
-          <h1 className="dark:text-gray-200 font-medium text-2xl mt-3 text-center">Register</h1>
+          <h1 className="dark:text-gray-200 font-medium text-2xl mt-3 text-center">
+            Register
+          </h1>
           <form className="mt-6">
             <div className="my-5 text-sm">
-              <label htmlFor="email" className="block dark:text-gray-200 text-black">
+              <label
+                htmlFor="email"
+                className="block dark:text-gray-200 text-black"
+              >
                 Email
               </label>
               <input
@@ -68,7 +73,10 @@ export default function Login(props) {
               />
             </div>
             <div className="my-5 text-sm">
-              <label htmlFor="email" className="block dark:text-gray-200 text-black">
+              <label
+                htmlFor="email"
+                className="block dark:text-gray-200 text-black"
+              >
                 Username
               </label>
               <input
@@ -81,7 +89,10 @@ export default function Login(props) {
               />
             </div>
             <div className="my-5 text-sm">
-              <label htmlFor="password" className="block dark:text-gray-200 text-black">
+              <label
+                htmlFor="password"
+                className="block dark:text-gray-200 text-black"
+              >
                 Password
               </label>
               <input
@@ -110,7 +121,9 @@ export default function Login(props) {
             </button>
 
             {registrationError?.length ? (
-              <p className="text-center text-red-600 mt-2">{registrationError}</p>
+              <p className="text-center text-red-600 mt-2">
+                {registrationError}
+              </p>
             ) : undefined}
           </form>
         </div>

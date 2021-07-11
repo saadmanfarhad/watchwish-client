@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Head from "next/head";
-import { Layout } from "../components/layout.tsx";
-import { SearchBar } from "../components/searchbar.tsx";
-import { CardSkeleton } from "../components/skeleton.tsx";
-import { Card } from "../components/card.tsx";
+import { Layout } from "../components/layout";
+import { CardSkeleton } from "../components/skeleton";
+import { Card } from "../components/card";
 import { useSWRInfinite } from "swr";
 import axios from "axios";
 
@@ -61,7 +60,10 @@ const Home = () => {
 
       return (
         <div className="flex flex-col items-center justify-center">
-          {results?.length && results.map((info, idx) => <Card key={info.id} data={{...info, media: tab}} />)}
+          {results?.length &&
+            results.map((info) => (
+              <Card key={info.id} data={{ ...info, media: tab }} />
+            ))}
           {page < totalPages ? (
             <button
               onClick={() => {
@@ -91,12 +93,22 @@ const Home = () => {
               <nav className="flex">
                 <button
                   onClick={() => setTab("movie")}
-                  className={`w-1/2 dark:text-gray-200 py-4 px-6 block dark:hover:text-blue-500 focus:outline-none ${tab === "movie" ? "text-blue-500 border-b-2 font-medium border-blue-500" : ""}`}>
+                  className={`w-1/2 dark:text-gray-200 py-4 px-6 block dark:hover:text-blue-500 focus:outline-none ${
+                    tab === "movie"
+                      ? "text-blue-500 border-b-2 font-medium border-blue-500"
+                      : ""
+                  }`}
+                >
                   Movies
                 </button>
                 <button
                   onClick={() => setTab("tv")}
-                  className={`w-1/2 dark:text-gray-200 py-4 px-6 block dark:hover:text-blue-500 focus:outline-none ${tab === "tv" ? "text-blue-500 border-b-2 font-medium border-blue-500" : ""}`}>
+                  className={`w-1/2 dark:text-gray-200 py-4 px-6 block dark:hover:text-blue-500 focus:outline-none ${
+                    tab === "tv"
+                      ? "text-blue-500 border-b-2 font-medium border-blue-500"
+                      : ""
+                  }`}
+                >
                   TV Shows
                 </button>
               </nav>

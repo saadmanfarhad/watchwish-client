@@ -10,7 +10,9 @@ const providers = [
         const user = await axios.post(
           `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/login`,
           {
+            // @ts-ignore
             password: credentials.password,
+            // @ts-ignore
             email: credentials.email,
           },
           {
@@ -27,6 +29,7 @@ const providers = [
       } catch (e) {
         const errorMessage = e.response.data.detail;
         // Redirecting to the login page with error messsage in the URL
+        // @ts-ignore
         throw new Error(errorMessage + "&email=" + credentials.email);
       }
     },
@@ -71,7 +74,7 @@ const callbacks = {
       return false;
     }
 
-    if (account.provider === 'facebook') {
+    if (account.provider === "facebook") {
       const fullName = user.name.split(" ");
       const lastName = fullName[fullName.length - 1];
       const firstName = fullName.slice(0, fullName.length).join(" ");
@@ -121,11 +124,14 @@ const callbacks = {
 
   async session(session, token) {
     session.accessToken = token.accessToken;
-    const user = await axios.get(`${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/user`, {
-      headers: {
-        Authorization: `Token ${session.accessToken}`,
-      },
-    });
+    const user = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/user`,
+      {
+        headers: {
+          Authorization: `Token ${session.accessToken}`,
+        },
+      }
+    );
     session.user = user.data;
     return session;
   },

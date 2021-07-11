@@ -1,4 +1,4 @@
-import { Navbar } from "./navbar.tsx";
+import { Navbar } from "./navbar";
 
 export const Layout = ({ children, header = true }) => (
   <div className="min-h-screen bg-gray-200 dark:bg-gray-900">

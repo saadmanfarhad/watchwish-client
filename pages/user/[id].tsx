@@ -118,8 +118,8 @@ const UserProfile = ({ session }) => {
                     Biography
                   </label>
                   <textarea
-                    cols="30"
-                    rows="10"
+                    cols={30}
+                    rows={10}
                     className="w-full appearance-none text-black text-opacity-50 rounded shadow py-1 px-2 mr-2 focus:outline-none focus:shadow-outline focus:border-blue-200 text-opacity-25 "
                     disabled
                   >
