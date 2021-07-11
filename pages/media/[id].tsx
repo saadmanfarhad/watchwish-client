@@ -1,8 +1,7 @@
-import React, { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/client";
-import { Layout } from "../components/layout.tsx";
+import { Layout } from "../../components/layout";
 import useSWR from "swr";
 import axios from "axios";
 
@@ -84,15 +83,15 @@ const DetailsPage = ({ details }) => {
   return (
     <Layout>
       <div>
-        <div class="lg:py-12 lg:flex lg:justify-center">
-          <div class="bg-gray-300 dark:bg-gray-800 lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg lg:rounded-lg">
-            <div class="lg:w-3/5">
+        <div className="lg:py-12 lg:flex lg:justify-center">
+          <div className="bg-gray-300 dark:bg-gray-800 lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg lg:rounded-lg">
+            <div className="lg:w-3/5">
               <div
-                class="h-80 bg-cover lg:rounded-lg lg:h-screen"
+                className="h-80 bg-cover lg:rounded-lg lg:h-screen"
                 style={{backgroundImage:`url('https://image.tmdb.org/t/p/original/${details.poster_path}')`}}
               ></div>
             </div>
-            <div class="py-12 px-6 max-w-xl lg:max-w-5xl lg:w-2/5">
+            <div className="py-12 px-6 max-w-xl lg:max-w-5xl lg:w-2/5">
               <h1 className="flex items-center justify-center text-3xl lg:text-4xl dark:text-gray-100 text-gray-700 text-center font-bold pt-8 lg:pt-0">
                 {details.media === "movie" ? data.title : data.name}
                 {details.watched === false ? (
