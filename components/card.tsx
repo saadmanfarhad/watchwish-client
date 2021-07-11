@@ -15,7 +15,7 @@ export const Card = ({ data }) => (
       ></div>
 
       <div className="px-6 py-4 w-full">
-        <Link href={`/${data.id}?media=${data.media}`}>
+        <Link href={`/media/${data.id}?media=${data.media}`}>
           <h2 className="md:text-4xl mb-2 font-black text-gray-800 dark:text-gray-100 cursor-pointer">
             {data.media === "movie" ? data.title : data.name}
           </h2>
