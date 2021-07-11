@@ -1,15 +1,14 @@
 import { useState } from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { getSession } from "next-auth/client";
-import { Layout } from "../components/layout.tsx";
-import { Unauthorized } from "../components/unauthorized.tsx";
-import { Card } from "../components/card.tsx";
-import { CardSkeleton } from "../components/skeleton.tsx";
+import { Layout } from "../components/layout";
+import { Unauthorized } from "../components/unauthorized";
+import { Card } from "../components/card";
+import { CardSkeleton } from "../components/skeleton";
 import useSWR, { useSWRInfinite } from "swr";
 import axios from "axios";
 
-const fetcher = (url, accessToken) =>
+const fetcher = (url: string, accessToken: string) =>
   axios
     .get(url, {
       headers: {
@@ -19,9 +18,7 @@ const fetcher = (url, accessToken) =>
     .then((res) => res.data);
 
 const MovieCard = ({ mediaType, mediaId }) => {
-  const {
-    data,
-  } = useSWR(
+  const { data } = useSWR(
     `https://api.themoviedb.org/3/${mediaType}/${mediaId}?api_key=4f17f3213e737992b22b4f7ebc04fc85&language=en-US`,
     (url) => fetcher(url)
   );
@@ -42,10 +39,8 @@ const MovieCard = ({ mediaType, mediaId }) => {
 };
 
 export default function Watchlist({ session, watchlist }) {
-  const router = useRouter();
   const [tab, setTab] = useState("notWatched");
-  const [loading, setLoading] = useState(false);
-  const { data, error, mutate, size, setSize } = useSWRInfinite(
+  const { data, size, setSize } = useSWRInfinite(
     (index) =>
       tab === "notWatched"
         ? `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/watchlist/${
@@ -97,49 +92,43 @@ export default function Watchlist({ session, watchlist }) {
     );
 
   return (
-    <Layout>
-      <div className="flex flex-col items-center justify-center">
-        <div className="mt-6 w-3/4">
-          <div className="bg-gray-300 dark:bg-gray-800">
-            <nav className="flex  mt-2">
-              <button
-                onClick={() => {
-                  setTab("notWatched");
-                  mutate(async (data) => {
-                    console.log("mutate nw", data);
-                  });
-                }}
-                className={`w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none ${
-                  tab === "notWatched"
-                    ? "text-blue-500 border-b-2 font-medium border-blue-500"
-                    : ""
-                }`}
-              >
-                Not Watched
-              </button>
-              <button
-                onClick={() => {
-                  setTab("watched");
-                  mutate(async (data) => {
-                    console.log("mutate nw", data);
-                  });
-                }}
-                className={`w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none ${
-                  tab === "watched"
-                    ? "text-blue-500 border-b-2 font-medium border-blue-500"
-                    : ""
-                }`}
-              >
-                Watched
-              </button>
-            </nav>
+    <>
+      <Head>
+        <title>Watchlist | WatchWish</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Layout>
+        <div className="flex flex-col items-center justify-center">
+          <div className="mt-6 w-3/4">
+            <div className="bg-gray-300 dark:bg-gray-800">
+              <nav className="flex  mt-2">
+                <button
+                  onClick={() => setTab("notWatched")}
+                  className={`w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none ${
+                    tab === "notWatched"
+                      ? "text-blue-500 border-b-2 font-medium border-blue-500"
+                      : ""
+                  }`}
+                >
+                  Not Watched
+                </button>
+                <button
+                  onClick={() => setTab("watched")}
+                  className={`w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none ${
+                    tab === "watched"
+                      ? "text-blue-500 border-b-2 font-medium border-blue-500"
+                      : ""
+                  }`}
+                >
+                  Watched
+                </button>
+              </nav>
+            </div>
           </div>
+          <div className="mt-2 w-full">{getResults()}</div>
         </div>
-        <div className="mt-2 w-full">
-          {getResults()}
-        </div>
-      </div>
-    </Layout>
+      </Layout>
+    </>
   );
 }
 
