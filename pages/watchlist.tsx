@@ -138,7 +138,7 @@ export async function getServerSideProps(ctx) {
   if (session) {
     const toWatchList = await fetcher(
       // @ts-ignore
-      `http://localhost:8000/api/watchlist/${session.user.id}?page=1`,
+      `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/watchlist/${session.user.id}?page=1`,
       session.accessToken as string
     );
 
