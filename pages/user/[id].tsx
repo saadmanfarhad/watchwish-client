@@ -1,11 +1,43 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { getSession } from "next-auth/client";
 import { GetServerSideProps } from "next";
 import { Layout } from "../../components/layout";
 import { Unauthorized } from "../../components/unauthorized";
 import axios from "axios";
+import { useState } from "react";
 
 const UserProfile = ({ session }) => {
+  const router = useRouter();
+  const [about, setAbout] = useState(session.user.about);
+
+  const updateUserAbout = async () => {
+    try {
+      if (about.length) {
+        const add = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/user/about`,
+          {
+            user: session.user.id,
+            about: about,
+          },
+          {
+            headers: {
+              Authorization: `Token ${session.accessToken}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (add.data.status) {
+          router.replace(router.asPath);
+        }
+      }
+    } catch (e) {
+      console.error(e.response.data);
+      const errorMessage = e.response.data.detail;
+    }
+  };
+
   if (!session)
     return (
       <Layout>
@@ -31,7 +63,9 @@ const UserProfile = ({ session }) => {
             <h1 className="text-2xl font-semibold">
               {session.user.first_name} {session.user.last_name}
             </h1>
-            <h4 className="text-sm font-semibold">Joined Since '19</h4>
+            <h4 className="text-sm font-semibold">
+              Joined Since '{session.user.date_joined.split("-")[0].slice(-2)}
+            </h4>
           </div>
         </div>
         <div className="grid grid-cols-12 bg-white dark:bg-gray-900">
@@ -47,14 +81,7 @@ const UserProfile = ({ session }) => {
               href="#"
               className="text-sm p-2 bg-indigo-200 text-center rounded font-semibold hover:bg-indigo-700 hover:text-gray-200"
             >
-              Another Information
-            </a>
-
-            <a
-              href="#"
-              className="text-sm p-2 bg-indigo-200 text-center rounded font-semibold hover:bg-indigo-700 hover:text-gray-200"
-            >
-              Another Something
+              Friend List
             </a>
           </div>
 
@@ -74,7 +101,7 @@ const UserProfile = ({ session }) => {
                   </label>
                   <input
                     type="text"
-                    value="Antonia P. Howell"
+                    value={`${session.user.first_name} ${session.user.last_name}`}
                     className="w-full appearance-none text-black text-opacity-50 rounded shadow py-1 px-2  mr-2 focus:outline-none focus:shadow-outline focus:border-blue-200"
                     disabled
                   />
@@ -87,7 +114,7 @@ const UserProfile = ({ session }) => {
                     </label>
                     <input
                       type="text"
-                      value="antonia"
+                      value={session.user.username}
                       className="w-full appearance-none text-black text-opacity-50 rounded shadow py-1 px-2 mr-2 focus:outline-none focus:shadow-outline focus:border-blue-200 text-opacity-25 "
                       disabled
                     />
@@ -99,7 +126,7 @@ const UserProfile = ({ session }) => {
                     </label>
                     <input
                       type="text"
-                      value="antoniaph@gmail.com"
+                      value={session.user.email}
                       className="w-full appearance-none text-black text-opacity-50 rounded shadow py-1 px-2 mr-2 focus:outline-none focus:shadow-outline focus:border-blue-200 text-opacity-25 "
                       disabled
                     />
@@ -118,18 +145,25 @@ const UserProfile = ({ session }) => {
                     Biography
                   </label>
                   <textarea
+                    disabled={router.query.id == session.user.id ? false : true}
+                    placeholder="Write something about yourself..."
                     cols={30}
                     rows={10}
+                    value={about ? about : ""}
+                    onChange={(event) => setAbout(event.target.value)}
                     className="w-full appearance-none text-black text-opacity-50 rounded shadow py-1 px-2 mr-2 focus:outline-none focus:shadow-outline focus:border-blue-200 text-opacity-25 "
-                    disabled
-                  >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Dolorem natus nobis odio. Lorem ipsum dolor sit amet
-                    consectetur adipisicing elit. Accusantium, eveniet fugiat?
-                    Explicabo assumenda dignissimos quisquam perspiciatis
-                    corporis sint commodi cumque rem tempora!
-                  </textarea>
+                  />
                 </div>
+                <button
+                  disabled={router.query.id == session.user.id ? false : true}
+                  className="bg-green-500 text-white hover:bg-green-600 active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  type="button"
+                  onClick={() => {
+                    updateUserAbout();
+                  }}
+                >
+                  Save Changes
+                </button>
               </form>
             </div>
           </div>
