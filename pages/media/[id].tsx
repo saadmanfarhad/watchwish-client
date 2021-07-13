@@ -372,7 +372,9 @@ export async function getServerSideProps(ctx) {
       // @ts-ignore
       userId: session.user.id,
       accessToken: session.accessToken,
+      // @ts-ignore
       review: review.data?.data.media_id ? review.data.data.review : "",
+      // @ts-ignore
       rating: review.data?.data.media_id ? review.data.data.rating : 0,
     };
   }

@@ -5,6 +5,7 @@ export const StarRating = ({ initialRating, setStarRating }) => {
 
   return (
     <div className="flex justify-center items-center">
+      {/*// @ts-ignore*/}
       {[...Array(5)].map((e, i) => (
         <div className="flex items-center mt-2 mb-4">
           <svg
