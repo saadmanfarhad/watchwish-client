@@ -2,15 +2,18 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/client";
 import { Layout } from "../../components/layout";
+import { StarRating } from "../../components/starrating";
 import useSWR from "swr";
 import axios from "axios";
 import { useState } from "react";
+import { ReviewModal } from "../../components/reviewmodal";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 const DetailsPage = ({ details }) => {
   const [showModal, setShowModal] = useState(false);
   const [review, setReview] = useState(details.review);
+  const [rating, setRating] = useState(details.rating);
 
   const router = useRouter();
   const { data } = useSWR(
@@ -93,6 +96,7 @@ const DetailsPage = ({ details }) => {
             user: details.userId,
             media_id: details.id,
             review: review,
+            rating: rating,
           },
           {
             headers: {
@@ -111,6 +115,10 @@ const DetailsPage = ({ details }) => {
       console.error(e.response.data);
       const errorMessage = e.response.data.detail;
     }
+  };
+
+  const setStarRating = (value: number) => {
+    setRating(value);
   };
 
   return (
@@ -222,13 +230,13 @@ const DetailsPage = ({ details }) => {
                 </svg>
                 {data.vote_count} votes
               </p>
-              <p className="mt-4 dark:text-gray-200 text-xl lg:text-xl dark:text-gray-500">
+              <div className="mt-4 dark:text-gray-200 text-xl lg:text-xl dark:text-gray-500">
                 <span className="font-bold dark:text-gray-200 underline text-2xl lg:text-3xl">
                   Overview
                 </span>
                 <br />
                 <p className="dark:text-gray-200 mt-2">{data.overview}</p>
-              </p>
+              </div>
               {details.userId ? (
                 <div className="flex">
                   {details.watched === null ? (
@@ -306,57 +314,14 @@ const DetailsPage = ({ details }) => {
                 </button>
               ) : undefined}
               {showModal ? (
-                <>
-                  <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                    <div className="relative w-1/2 my-6 mx-auto max-w-3xl">
-                      {/*content*/}
-                      <div className="bg-gray-300 dark:bg-gray-800 border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                        {/*header*/}
-                        <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                          <h3 className="text-gray-700 dark:text-gray-100 text-3xl font-semibold">
-                            Review
-                          </h3>
-                          <button
-                            className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                            onClick={() => setShowModal(false)}
-                          >
-                            <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                              ×
-                            </span>
-                          </button>
-                        </div>
-                        {/*body*/}
-                        <div className="relative p-6 flex-auto">
-                          <textarea
-                            className="autoexpand tracking-wide py-2 px-4 mb-3 leading-relaxed appearance-none block w-full bg-gray-200 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="message"
-                            value={review}
-                            onChange={(event) => setReview(event.target.value)}
-                            placeholder="Review..."
-                          ></textarea>
-                        </div>
-                        {/*footer*/}
-                        <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                          <button
-                            className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                            type="button"
-                            onClick={() => setShowModal(false)}
-                          >
-                            Close
-                          </button>
-                          <button
-                            className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                            type="button"
-                            onClick={() => writeReview()}
-                          >
-                            Save Changes
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-                </>
+                <ReviewModal
+                  setShowModal={setShowModal}
+                  rating={rating}
+                  review={review}
+                  setReview={setReview}
+                  setStarRating={setStarRating}
+                  writeReview={writeReview}
+                />
               ) : null}
             </div>
           </div>
@@ -408,6 +373,7 @@ export async function getServerSideProps(ctx) {
       userId: session.user.id,
       accessToken: session.accessToken,
       review: review.data?.data.media_id ? review.data.data.review : "",
+      rating: review.data?.data.media_id ? review.data.data.rating : 0,
     };
   }
 
