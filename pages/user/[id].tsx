@@ -7,9 +7,11 @@ import { Unauthorized } from "../../components/unauthorized";
 import axios from "axios";
 import { useState } from "react";
 
-const UserProfile = ({ session }) => {
+const UserProfile = ({ session, friendshipStatus, differentUser }) => {
   const router = useRouter();
-  const [about, setAbout] = useState(session.user.about);
+  const [about, setAbout] = useState(
+    differentUser ? differentUser.about : session?.user.about
+  );
 
   const updateUserAbout = async () => {
     try {
@@ -17,12 +19,12 @@ const UserProfile = ({ session }) => {
         const add = await axios.post(
           `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/user/about`,
           {
-            user: session.user.id,
+            user: session?.user.id,
             about: about,
           },
           {
             headers: {
-              Authorization: `Token ${session.accessToken}`,
+              Authorization: `Token ${session?.accessToken}`,
               "Content-Type": "application/json",
             },
           }
@@ -31,6 +33,56 @@ const UserProfile = ({ session }) => {
         if (add.data.status) {
           router.replace(router.asPath);
         }
+      }
+    } catch (e) {
+      console.error(e.response.data);
+      const errorMessage = e.response.data.detail;
+    }
+  };
+
+  const sendFriendRequest = async () => {
+    try {
+      const add = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/friend/request/send`,
+        {
+          sender: session?.user.id,
+          receiver: differentUser?.id,
+        },
+        {
+          headers: {
+            Authorization: `Token ${session?.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (add.data.status) {
+        router.replace(router.asPath);
+      }
+    } catch (e) {
+      console.error(e.response.data);
+      const errorMessage = e.response.data.detail;
+    }
+  };
+
+  const acceptFriendRequest = async () => {
+    try {
+      const add = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/friend/request/accept`,
+        {
+          user_id: session?.user.id,
+          friend_id: differentUser?.id,
+        },
+        {
+          headers: {
+            Authorization: `Token ${session?.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (add.data.status) {
+        router.replace(router.asPath);
       }
     } catch (e) {
       console.error(e.response.data);
@@ -57,19 +109,67 @@ const UserProfile = ({ session }) => {
           />
           <div className="flex flex-col justify-center items-center relative h-full bg-black bg-opacity-50 text-white">
             <img
-              src={session.user.avatar}
+              src={differentUser ? differentUser.avatar : session.user.avatar}
               className="h-24 w-24 object-cover rounded-full"
             />
             <h1 className="text-2xl font-semibold">
-              {session.user.first_name} {session.user.last_name}
+              {differentUser
+                ? `${differentUser.first_name} ${differentUser.last_name}`
+                : `${session.user.first_name} ${session.user.last_name}`}{" "}
             </h1>
             <h4 className="text-sm font-semibold">
-              Joined Since '{session.user.date_joined.split("-")[0].slice(-2)}
+              Joined Since '
+              {differentUser
+                ? differentUser.date_joined.split("-")[0].slice(-2)
+                : session.user.date_joined.split("-")[0].slice(-2)}
             </h4>
           </div>
         </div>
         <div className="grid grid-cols-12 bg-white dark:bg-gray-900">
           <div className="col-span-12 w-full px-3 pt-6 justify-center flex space-x-4 md:space-x-0 md:space-y-4 md:flex-col md:col-span-2 md:justify-start ">
+            {friendshipStatus === 1 && (
+              <div className="flex justify-center items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-12 w-12 text-gray-100"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                </svg>
+              </div>
+            )}
+            {friendshipStatus === 2 && (
+              <a
+                href="#"
+                className="text-sm p-2 bg-indigo-200 text-center rounded font-semibold hover:bg-indigo-700 hover:text-gray-200"
+                onClick={() => sendFriendRequest()}
+              >
+                Add Friend
+              </a>
+            )}
+            {friendshipStatus === 3 && (
+              <a
+                href="#"
+                className="text-sm p-2 bg-indigo-200 text-center rounded font-semibold hover:bg-indigo-700 hover:text-gray-200"
+                onClick={() => {
+                  return;
+                }}
+              >
+                Cancel Friend Request
+              </a>
+            )}
+            {friendshipStatus === 4 && (
+              <a
+                href="#"
+                className="text-sm p-2 bg-indigo-200 text-center rounded font-semibold hover:bg-indigo-700 hover:text-gray-200"
+                onClick={() => {
+                  acceptFriendRequest();
+                }}
+              >
+                Accept Friend Request
+              </a>
+            )}
             <a
               href="#"
               className="text-sm p-2 bg-indigo-900 text-white text-center rounded font-bold"
@@ -101,7 +201,11 @@ const UserProfile = ({ session }) => {
                   </label>
                   <input
                     type="text"
-                    value={`${session.user.first_name} ${session.user.last_name}`}
+                    value={
+                      differentUser
+                        ? `${differentUser.first_name} ${differentUser.last_name}`
+                        : `${session.user.first_name} ${session.user.last_name}`
+                    }
                     className="w-full appearance-none text-black text-opacity-50 rounded shadow py-1 px-2  mr-2 focus:outline-none focus:shadow-outline focus:border-blue-200"
                     disabled
                   />
@@ -114,7 +218,11 @@ const UserProfile = ({ session }) => {
                     </label>
                     <input
                       type="text"
-                      value={session.user.username}
+                      value={
+                        differentUser
+                          ? differentUser.username
+                          : session.user.username
+                      }
                       className="w-full appearance-none text-black text-opacity-50 rounded shadow py-1 px-2 mr-2 focus:outline-none focus:shadow-outline focus:border-blue-200 text-opacity-25 "
                       disabled
                     />
@@ -126,7 +234,9 @@ const UserProfile = ({ session }) => {
                     </label>
                     <input
                       type="text"
-                      value={session.user.email}
+                      value={
+                        differentUser ? differentUser.email : session.user.email
+                      }
                       className="w-full appearance-none text-black text-opacity-50 rounded shadow py-1 px-2 mr-2 focus:outline-none focus:shadow-outline focus:border-blue-200 text-opacity-25 "
                       disabled
                     />
@@ -175,10 +285,42 @@ const UserProfile = ({ session }) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
+  let differentUser = null;
+  let friendshipStatus = null;
+
+  if (ctx.query.id != session?.user.id && session) {
+    friendshipStatus = await axios.get(
+      // @ts-ignore
+      `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/friend/status/${
+        session?.user.id
+      }/${parseInt(ctx.query.id)}`,
+      {
+        headers: {
+          Authorization: `Token ${session?.accessToken}`,
+        },
+      }
+    );
+
+    differentUser = await axios.get(
+      // @ts-ignore
+      `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/user/${parseInt(
+        ctx.query.id
+      )}`,
+      {
+        headers: {
+          Authorization: `Token ${session?.accessToken}`,
+        },
+      }
+    );
+  }
 
   return {
     props: {
       session,
+      friendshipStatus: friendshipStatus
+        ? friendshipStatus.data.type
+        : friendshipStatus,
+      differentUser: differentUser ? differentUser.data : differentUser,
     },
   };
 };

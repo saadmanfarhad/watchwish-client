@@ -46,7 +46,6 @@ const Search = () => {
     if (data && !data[0].errors?.length) {
       let page = 0;
       let totalPages = 0;
-      console.log(data);
       results = [];
       for (var pageData of data) {
         const items = pageData.results
