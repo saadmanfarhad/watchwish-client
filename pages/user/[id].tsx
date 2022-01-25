@@ -288,11 +288,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   let differentUser = null;
   let friendshipStatus = null;
 
+  // @ts-ignore
   if (ctx.query.id != session?.user.id && session) {
     friendshipStatus = await axios.get(
-      // @ts-ignore
       `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/friend/status/${
-        session?.user.id
+        // @ts-ignore
+        session?.user.id!
+        // @ts-ignore
       }/${parseInt(ctx.query.id)}`,
       {
         headers: {
@@ -302,8 +304,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     );
 
     differentUser = await axios.get(
-      // @ts-ignore
       `${process.env.NEXT_PUBLIC_API_ROOT_URL}/api/user/${parseInt(
+        // @ts-ignore
         ctx.query.id
       )}`,
       {
